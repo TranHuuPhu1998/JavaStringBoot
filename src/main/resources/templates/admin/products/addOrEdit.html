@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}"
+>
+  <body>
+    <section layout:fragment="content" class="row w-100">
+      <!-- Jumbotron -->
+      <div class="p-5 text-center bg-light">
+        <h1 class="mb-3">New</h1>
+        <h4 class="mb-3">Create Product</h4>
+      </div>
+      <!-- Jumbotron -->
+      <form
+        class="d-flex justify-content-center flex-column"
+        th:action="@{/admin/products/saveOrUpdate}"
+        method="post"
+        th:object="${product}"
+      >
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="validationServer01">Category Id:</label>
+            <!-- <input type="hidden" th:field="*{isEdit}"> -->
+            <input
+              type="text"
+              th:field="*{productId}"
+              name="productId"
+              readonly
+              class="form-control "
+              id="validationServer01"
+            />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="validationServer02">Product name</label>
+            <input
+              type="text"
+              name="name"
+              th:field="*{name}"
+              class="form-control "
+              id="validationServer02"
+            />
+            <small class="valid-feedback">
+              Product name is required
+            </small>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="validationServer02">Quantity</label>
+            <input
+              type="text"
+              name="quantity"
+              th:field="*{quantity}"
+              class="form-control "
+              id="validationServer02"
+            />
+            <small class="valid-feedback">
+              Quantity is required
+            </small>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="validationServer02">Unit Price</label>
+            <input
+              type="text"
+              name="unitPrice"
+              th:field="*{unitPrice}"
+              class="form-control "
+              id="validationServer02"
+            />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="validationServer02">Category</label>
+            <select class="form-control" name="categoryId" id="categoryId" th:field="*{categoryId}">
+              <option 
+                th:each="item : ${categories}" 
+                th:value="${item.categoryId}"
+                th:text="${item.name}"
+                th:selected="${item.categoryId == product.categoryId}"
+              >Category Name</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <script>
+              function choseeFile(fileInput) {
+                if(fileInput.files && fileInput.files[0]) {
+                  var reader = new FileReader();
+                  reader.onload = function(e) {
+                    $('#image').attr('src', e.target.result);
+                  }
+                  reader.readAsDataURL(fileInput.files[0]);
+                }
+              }
+            </script>
+            <img id="image" width="50%" class="img-fluid" src="https://upload.wikimedia.org/wikipedia/commons/4/42/Temp_plate.svg" alt="">
+            <div class="form-group">
+              <label for="productImage">Image File</label>
+              <input 
+                  onchange="choseeFile(this)"
+                  type="file" name="imageFile" class="form-control-file" id="productImage"
+                  placeholder="Product Image"
+              >
+              <p class="form-text text-muted">Product Image is required</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+              <label for="">Discount</label>
+              <input type="text" name="discount" th:field="*{discount}" class="form-control "/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+              <label for="">Status</label>
+              <select class="form-control" name="status" id="status" th:field="*{status}">
+                <option value="0">Out of Stock</option>
+                <option value="1">On Sale</option>
+                <option value="2">Featured</option>
+                <option value="3">Bestseller</option>
+                <option value="4">Out of Order</option>
+              </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+              <label for="">Description</label>
+              <textarea id="description" rows="5" class="form-control" name="description" th:field="*{description}"></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <button class="btn btn-primary" type="reset">Reset form</button>
+          <a
+            th:href="@{/admin/categories}"
+            class="btn btn-primary"
+            type="button"
+            >List Product</a
+          >
+          <button class="btn btn-primary" type="submit">
+            <span>Update</span>
+            <span>Save</span>
+          </button>
+        </div>
+      </form>
+    </section>
+  </body>
+</html>

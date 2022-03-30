@@ -1,6 +1,7 @@
 package edu.poly.shop.domain;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.*;
 import lombok.*;
@@ -19,7 +20,10 @@ public class Category implements Serializable{
 	
 	@Column(length = 100 ,columnDefinition="nvarchar(100) not null")
 	private String name;
-
+	
+	// at table category will access list products in category
+	@OneToMany(mappedBy = "category" , cascade = CascadeType.ALL)
+	private Set<Product> products;
 	/**
 	 * @return the categoryId
 	 */
